@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Appliances</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+    <body>
+        <ul>
+  <li><a class="active" href="index.html#">Home</a></li>
+  <li><a href="Products1.html#">Electronics</a></li>
+  <li><a href="Products2.html#">Appliances</a></li>
+  <li><a href="Products3.html#">Games</a></li>
+  <li><a href="AboutUs.html#">About</a></li>
+  <li><a href="ContactUs.html#">Contact</a></li>
+  <li><a href="Login.html#">Login</a></li>
+</ul>
+        <br>
+
+         <div id="cart2"></div>
+                  
+        <h1 align = "center">Our Products</h1>
+        <br>
+        <br>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Code Number</th>
+                    <th>Product Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="Appliances"></tbody>
+        </table>
+        
+                        <script>
+           var items = [
+               { id: "A1",
+                 desc: "Samsung Smart Refrigerator",
+                 price: 2599.99,
+                 image:"fridge.jpg"
+               },           
+               {
+                 id: "A2",
+                 desc: "Black & Decker Microwave",
+                 price: 54.99,
+                 image:"microwave.jpg"
+                
+               },
+               
+               {
+                 id: "A3",
+                 desc: "Derby Portable Dishwasher",
+                 price: 299.97,
+                 image:"dishwasher.jpg"
+                 
+                 
+               },
+               
+               {
+                 id: "A4",
+                 desc: "Oster Blender",
+                 price: 29.74,
+                 image:"blender.jpg" 
+               },               
+           ];      
+  
+    
+           console.log("Shopping Cart Starts");
+    
+    
+                      window.onload = function () {
+               for (var i = 0; i < items.length; i++) {
+                    var prods = items[i];
+                    document.getElementById("Appliances").innerHTML +=
+                            "<tr>" +
+                            "<td valign='top'>" + prods.id + "</td>" +
+                             "<td valign='top'><img src='pictures/" + prods.image + "' alt='Product'><br><h3>" + prods.desc + "</h3></td>" +"<td valign='top' align='right'>$" + prods.price + "<br>\n\
+                             <button onclick='addToCart(\"" + prods.id + "\",1)'>Add To Cart</button></td>" +"</tr>";
+                }
+                doShowAll();
+            };
+           
+           // Check if browser supports localStorage
+            function CheckBrowser() {
+                if ("localStorage" in window && window["localStorage"] !== null) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+           
+       
+            function addToCart(price, quantity) {
+
+                localStorage.getItem("test");
+
+                if (localStorage.getItem(price)) {
+                    localStorage.setItem(price, parseInt(localStorage.getItem(price)) + 1);
+                } else {
+                    localStorage.setItem(price, quantity);
+                }
+
+                doShowAll();
+            }
+            
+             // displays the shopping cart
+            function doShowAll() {
+                if (CheckBrowser()) {
+                    var amount = 0;
+                    var cost = 0;
+                    var shopping_c = "<table align='right' style='width:50%;' class='table'>";
+                    shopping_c += "<tr><th colspan='2'><h3>Shopping Cart</h3></th></tr>";
+                    shopping_c += "<tr><th>Product Code Number</th>";
+                    shopping_c += "<th>Product Description</th>";
+                    shopping_c += "<th>Price</th>";
+                    shopping_c += "<th>Quantity</th>";
+                    shopping_c += "<th>Total $</th>";
+                    shopping_c += "<th>Remove</th>";
+                    shopping_c += "</tr>";
+
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var get_value = items[items.findIndex(x => x.id === key)].desc;
+                        var price_tag = items[items.findIndex(x => x.id === key)].price;
+                        shopping_c += "<tr>";
+                        shopping_c += "<td>" + key + "</td>";
+                        shopping_c += "<td>" + get_value + "</td>";
+                        shopping_c += "<td align='right'>" + price_tag + "</td>";
+                        shopping_c += "<td align='right'>" + localStorage.getItem(localStorage.key(i)) + "</td>";
+                        shopping_c += "<td align='right'>" + (localStorage.getItem(localStorage.key(i)) * price_tag).toFixed(2) + "</td>";
+                        shopping_c += "<td><input type=\"button\" onclick=\"deleteProduct('" + key.toString() + "')\" value='Remove Item'></td>";
+                        shopping_c += "</tr>";
+                        
+                        amount += parseInt(localStorage.getItem(localStorage.key(i)));
+                        cost += (parseInt(localStorage.getItem(localStorage.key(i))) * parseFloat(price_tag));
+                    }
+                    
+                    // Create a table to show total
+                    shopping_c += "<tr>";
+                    shopping_c += "<td colspan='3' align='right'><b>Grand Total:</b></td>";
+                    shopping_c += "<td align='right'>"+amount+"</td>";
+                    shopping_c += "<td align='right'>"+cost.toFixed(2)+"</td>";
+                    shopping_c += "</tr>";
+                    
+
+                    document.getElementById('cart2').innerHTML = shopping_c;
+
+                } else {
+                    alert("Sorry, your browser does not support local storage.");
+                }
+
+            } // end function doShowAll
+
+            function getItem(key) {
+                var value = localStorage.getItem(key);
+                return value;
+            }
+
+            // function to remove items from the shopping cart
+            function deleteProduct(price) {
+                localStorage.removeItem(price);
+                doShowAll();
+            }
+           
+           function Preorder(){
+               alert("Thank You For Preordering");
+           }
+           
+       </script> 
+       
+      <table >
+            <tr>
+                <td> <img src="grill.jpeg" <br> <p align="center"></td>
+                <td> <br> <p align="center"> <b> Hamilton Electric Grill <br> Coming Soon </b> </p> <button onclick="Preorder()"> Pre-Order </button></b> </td>
+            </tr>
+            
+            <tr>
+                <td> <img src="juicer.jpg" <br></td>
+                <td> <br> <p align="center"> <b>NutriBullet Juicer <br> Coming Soon </b> </p><button onclick="Preorder()"</button> Pre-Order</b> </td>
+            </tr>
+            
+            <tr>
+                <td> <img src="cooktop.jpg"<br></td>
+                <td> <br> <p align="center"> <b>Portable Cooktop Burner <br> Coming Soon </b> </p> <button onclick="Preorder()"> Pre-Order </button></b> </td>
+            </tr>
+            
+        </table>   
+        
+    </body>
+</html>
